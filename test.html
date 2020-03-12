@@ -1,0 +1,55 @@
+<style type="text/css">
+	section div div{
+		border:1px solid white;
+		padding: 7px;
+		display: inline-block;
+		margin: 10px;
+		margin-bottom: 17px;
+		border-radius: 8px;
+		color:white;
+	}
+	section{
+		overflow-y: scroll;
+		scroll-behavior: 
+	}
+</style>
+
+<h2>Welcome to the simple group chat application</h2> 
+
+<input type='text' id='message' placeholder='Enter your message here' style='width:70%; height:5vh;'/>
+ <button id='submit'>Submit</button>
+<br><br>
+ <section style="width: 90%; background-color: gray; height: 75vh;">
+ 	<div id='appended'>
+
+
+</div>
+</section>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="socket.io.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var socket;
+		
+		 socket=io.connect('http://192.168.43.206:8089');
+
+socket.on('message',function(message){
+$("#appended").append("<div>"+message+"</div><br>");
+scroll();
+});
+
+function scroll(){
+	$("section").scrollTop($("section > div").height());
+}
+scroll();
+
+$("#submit").click(function(){
+socket.emit('message',$("#message").val());
+$("#appended").append("<div>"+$("#message").val()+"</div><br>");
+scroll();
+});
+
+
+	});
+
+</script>
